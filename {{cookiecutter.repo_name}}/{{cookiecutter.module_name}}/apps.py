@@ -3,9 +3,11 @@ from django.utils.translation import gettext_lazy
 from . import __version__
 
 try:
-    from pretix.base.plugins import PluginConfig
+    from pretix.base.plugins import {{cookiecutter.level}}, PluginConfig
 except ImportError:
-    raise RuntimeError("Please use pretix 2.7 or above to run this plugin!") from None
+    raise RuntimeError(
+        "Please use pretix {{cookiecutter.min_basever}} or above to run this plugin!",
+    ) from None
 
 
 class PluginApp(PluginConfig):
@@ -21,6 +23,7 @@ class PluginApp(PluginConfig):
         version = __version__
         category = "{{cookiecutter.category}}"
         compatibility = "pretix>={{cookiecutter.min_basever}}"
+        level = {{cookiecutter.level}}
         settings_links = []
         navigation_links = []
 

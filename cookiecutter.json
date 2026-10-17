@@ -9,5 +9,6 @@
 	"license": ["Apache", "pretix Enterprise"],
 	"min_basever": "2.7.0",
 	"category": ["FEATURE", "PAYMENT", "INTEGRATION", "CUSTOMIZATION", "FORMAT", "API"],
-	"python_version": ["3.11", "3.12", "3.13", "3.14"]
+	"python_version": ["3.11", "3.12", "3.13", "3.14"],
+	"level": ["PLUGIN_LEVEL_EVENT", "PLUGIN_LEVEL_ORGANIZER", "PLUGIN_LEVEL_EVENT_ORGANIZER_HYBRID"]
 }
