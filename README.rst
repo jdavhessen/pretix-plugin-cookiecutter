@@ -92,6 +92,10 @@ Differences to upstream
 - **commitizen** releases: Conventional Commits, ``cz bump`` updates the version
   and ``CHANGELOG.md`` and creates the ``v…`` tag. The version starts at 0.1.0 and
   ``major_version_zero`` keeps breaking changes from jumping to 1.0.0 by accident.
+- **uv** is used as the installer (generated GitHub workflows, as in pretix core) and for a
+  standalone quick start (``uv pip install -e . --group dev --group test``). There is
+  deliberately **no lockfile**: the ``test`` group follows pretix master, which a lock would
+  freeze, and ``uv.lock``/``.python-version`` are git-ignored.
 - New prompts ``python_version`` and ``level`` (see above); the generated
   ``tests/test_main.py`` checks that the plugin is registered with that level.
 - Small fixes: coverage ``exclude_lines`` typo, ``pip install -e .`` instead of the

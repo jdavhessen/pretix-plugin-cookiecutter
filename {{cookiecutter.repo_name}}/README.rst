@@ -45,6 +45,24 @@ cut with `Commitizen`_ (``cz bump``), which updates the version in
 0.1.0; while it is 0.x, breaking changes bump the minor version.
 
 
+Quick start without a pretix checkout
+-------------------------------------
+
+To run the tests and the style checks you do not need a full pretix development
+setup. With `uv`_, a few commands create a throwaway environment that contains
+the plugin and pretix from its git master branch::
+
+    uv venv
+    source .venv/bin/activate
+    uv pip install -e . --group dev --group test
+    make
+    pytest tests
+    ruff check .
+
+``make`` needs GNU gettext (Debian package ``gettext``). To try the plugin in a
+running pretix, use the development setup above instead.
+
+
 License
 -------
 
@@ -62,5 +80,6 @@ Released under the terms of the proprietary pretix Enterprise license.
 .. _pretix: https://github.com/pretix/pretix
 .. _pretix development setup: https://docs.pretix.eu/en/latest/development/setup.html
 .. _Ruff: https://docs.astral.sh/ruff/
+.. _uv: https://docs.astral.sh/uv/
 .. _Conventional Commits: https://www.conventionalcommits.org/
 .. _Commitizen: https://commitizen-tools.github.io/commitizen/
