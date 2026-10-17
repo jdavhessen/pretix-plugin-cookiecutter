@@ -48,6 +48,15 @@ version = {attr = "{{cookiecutter.module_name}}.__version__"}
 include = ["pretix*"]
 namespaces = false
 
+[dependency-groups]
+dev = ["ruff"]
+test = [
+    "pytest",
+    "pytest-django",
+    "coverage",
+    "pretix @ git+https://github.com/pretix/pretix.git@master",
+]
+
 [tool.ruff]
 line-length = 88
 target-version = "py{{ cookiecutter.python_version|replace('.', '') }}"
