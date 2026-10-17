@@ -29,9 +29,9 @@ jobs:
           restore-keys: |
             {{ "${{ runner.os }}-pip-" }}
       - name: Install pretix
-        run: pip3 install pretix
+        run: pip3 install uv && uv pip install --system pretix
       - name: Install Dependencies
-        run: pip3 install ruff -Ue .
+        run: uv pip install --system -U ruff -e .
       - name: Run ruff format --check
         run: ruff format --check .
       - name: Run ruff check
@@ -52,9 +52,9 @@ jobs:
           restore-keys: |
             {{ "${{ runner.os }}-pip-" }}
       - name: Install pretix
-        run: pip3 install pretix
+        run: pip3 install uv && uv pip install --system pretix
       - name: Install Dependencies
-        run: pip3 install twine check-manifest pretix-plugin-build setuptools build -Ue .
+        run: uv pip install --system -U twine check-manifest pretix-plugin-build setuptools build -e .
       - name: Run check-manifest
         run: check-manifest .
         working-directory: .

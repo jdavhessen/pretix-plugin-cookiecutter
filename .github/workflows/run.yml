@@ -37,10 +37,10 @@ jobs:
           git commit -m 'feat: initial commit'
         working-directory: pretix-superplugin
       - name: Install pretix
-        run: pip3 install pretix
+        run: pip3 install uv && uv pip install --system pretix
         working-directory: pretix-superplugin
       - name: Install Dependencies
-        run: pip3 install ruff commitizen twine check-manifest pytest pytest-django -Ue .
+        run: uv pip install --system -U ruff commitizen twine check-manifest pytest pytest-django -e .
         working-directory: pretix-superplugin
       - name: Check that migrations match the models
         run: python -m pretix makemigrations pretix_superplugin --check --dry-run
