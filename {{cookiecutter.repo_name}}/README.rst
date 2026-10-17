@@ -38,6 +38,12 @@ You can auto-fix most of these issues by running::
 
 To automatically check for these issues before you commit, you can run ``.install-hooks.sh``.
 
+Commits in this repository follow `Conventional Commits`_ and releases are
+cut with `Commitizen`_ (``cz bump``), which updates the version in
+``pyproject.toml`` and ``{{cookiecutter.module_name}}/__init__.py``, writes
+``CHANGELOG.md`` and creates the matching git tag. The version starts at
+0.1.0; while it is 0.x, breaking changes bump the minor version.
+
 
 License
 -------
@@ -56,3 +62,5 @@ Released under the terms of the proprietary pretix Enterprise license.
 .. _pretix: https://github.com/pretix/pretix
 .. _pretix development setup: https://docs.pretix.eu/en/latest/development/setup.html
 .. _Ruff: https://docs.astral.sh/ruff/
+.. _Conventional Commits: https://www.conventionalcommits.org/
+.. _Commitizen: https://commitizen-tools.github.io/commitizen/
