@@ -21,22 +21,22 @@ Development setup
 6. Restart your local pretix server. You can now use the plugin from this repository for your events by enabling it in
    the 'plugins' tab in the settings.
 
-This plugin has CI set up to enforce a few code style rules. To check locally, you need these packages installed::
+This plugin has CI set up to enforce a few code style rules with `Ruff`_. To
+check locally, you need it installed::
 
-    pip install flake8 isort black
+    pip install ruff
 
 To check your plugin for rule violations, run::
 
-    black --check .
-    isort -c .
-    flake8 .
+    ruff format --check .
+    ruff check .
 
-You can auto-fix some of these issues by running::
+You can auto-fix most of these issues by running::
 
-    isort .
-    black .
+    ruff format .
+    ruff check --fix .
 
-To automatically check for these issues before you commit, you can run ``.install-hooks``.
+To automatically check for these issues before you commit, you can run ``.install-hooks.sh``.
 
 
 License
@@ -55,3 +55,4 @@ Released under the terms of the proprietary pretix Enterprise license.
 
 .. _pretix: https://github.com/pretix/pretix
 .. _pretix development setup: https://docs.pretix.eu/en/latest/development/setup.html
+.. _Ruff: https://docs.astral.sh/ruff/

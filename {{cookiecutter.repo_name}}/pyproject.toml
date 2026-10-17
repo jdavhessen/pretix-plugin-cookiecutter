@@ -46,3 +46,38 @@ version = {attr = "{{cookiecutter.module_name}}.__version__"}
 [tool.setuptools.packages.find]
 include = ["pretix*"]
 namespaces = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+extend-exclude = ["*/migrations/*", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "DJ",  # flake8-django
+    "DTZ", # flake8-datetimez: naive datetimes (pretix is timezone-aware)
+    "RUF", # ruff-specific rules
+]
+ignore = [
+    "RUF001", # intentional non-ASCII characters in user-facing (German) strings
+    "RUF012", # mutable class attributes are idiomatic in Django/pretix (PretixPluginMeta, forms, Meta)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["DTZ"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["{{cookiecutter.module_name}}"]
+known-third-party = ["pretix"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"

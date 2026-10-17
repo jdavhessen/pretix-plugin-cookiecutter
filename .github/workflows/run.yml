@@ -29,16 +29,13 @@ jobs:
         run: pip3 install pretix
         working-directory: pretix-superplugin
       - name: Install Dependencies
-        run: pip3 install isort flake8 black docformatter twine check-manifest pytest pytest-django -Ue .
+        run: pip3 install ruff twine check-manifest pytest pytest-django -Ue .
         working-directory: pretix-superplugin
-      - name: Run isort
-        run: isort -c .
+      - name: Run ruff format --check
+        run: ruff format --check .
         working-directory: pretix-superplugin
-      - name: Run flake8
-        run: flake8 .
-        working-directory: pretix-superplugin
-      - name: Run black
-        run: black --check .
+      - name: Run ruff check
+        run: ruff check .
         working-directory: pretix-superplugin
       - name: Run check-manifest
         run: check-manifest .
