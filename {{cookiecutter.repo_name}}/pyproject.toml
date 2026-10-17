@@ -16,6 +16,12 @@ dependencies = [
 ]
 
 [project.entry-points."pretix.plugin"]
+# pretix only reads the module part (before the ":") of this entry point: it
+# does `INSTALLED_APPS.append(entry_point.module)` in pretix/settings.py and
+# relies on Django's app-config auto-discovery (apps.py) to find
+# PretixPluginMeta. So this must be the plain top-level package name; pointing
+# it at ".apps" makes Django load a different, PretixPluginMeta-less app and
+# the plugin silently never shows up in the plugin list.
 {{cookiecutter.module_name}} = "{{cookiecutter.module_name}}:PretixPluginMeta"
 
 [project.entry-points."distutils.commands"]
