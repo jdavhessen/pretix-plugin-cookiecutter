@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    name: lint and test (${{ matrix.level }})
+    name: lint and test (${{ matrix.level }}, ${{ matrix.license }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,18 +16,19 @@ jobs:
           - PLUGIN_LEVEL_EVENT
           - PLUGIN_LEVEL_ORGANIZER
           - PLUGIN_LEVEL_EVENT_ORGANIZER_HYBRID
+        license: [Apache]
+        include:
+          - level: PLUGIN_LEVEL_EVENT
+            license: All rights reserved
     steps:
       - name: Install system dependencies
         run: sudo apt update && sudo apt install gettext
       - uses: actions/checkout@v7
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v7
+      - uses: astral-sh/setup-uv@v7
         with:
-          python-version: 3.11
-      - name: Install cookiecutter
-        run: pip3 install cookiecutter
+          python-version: "3.14"
       - name: Run cookiecutter
-        run: cookiecutter . --no-input level=${{ matrix.level }}
+        run: uvx cookiecutter . --no-input level="${{ matrix.level }}" license="${{ matrix.license }}"
       - name: Init git repo (required for check-manifest)
         run: |
           git config --global user.email "you@example.com"
@@ -36,33 +37,30 @@ jobs:
           git add .
           git commit -m 'feat: initial commit'
         working-directory: pretix-superplugin
-      - name: Install pretix
-        run: pip3 install uv && uv pip install --system pretix
-        working-directory: pretix-superplugin
-      - name: Install Dependencies
-        run: uv pip install --system -U ruff commitizen twine check-manifest pytest pytest-django -e .
+      - name: Install dependencies
+        run: uv sync --group test
         working-directory: pretix-superplugin
       - name: Check that migrations match the models
-        run: python -m pretix makemigrations pretix_superplugin --check --dry-run
+        run: uv run python -m pretix makemigrations pretix_superplugin --check --dry-run
         working-directory: pretix-superplugin
       - name: Run ruff format --check
-        run: ruff format --check .
+        run: uv run ruff format --check .
         working-directory: pretix-superplugin
       - name: Run ruff check
-        run: ruff check .
+        run: uv run ruff check .
         working-directory: pretix-superplugin
       - name: Bump version with commitizen
-        run: cz bump --yes
+        run: uv run cz bump --yes
         working-directory: pretix-superplugin
       - name: Run check-manifest
-        run: check-manifest .
+        run: uvx --with build --with setuptools --with pretix-plugin-build check-manifest .
         working-directory: pretix-superplugin
       - name: Build package
-        run: python setup.py sdist
+        run: uv build
         working-directory: pretix-superplugin
       - name: Check package
-        run: twine check dist/*
+        run: uvx twine check dist/*
         working-directory: pretix-superplugin
       - name: Run tests
-        run: py.test tests
+        run: uv run pytest tests
         working-directory: pretix-superplugin

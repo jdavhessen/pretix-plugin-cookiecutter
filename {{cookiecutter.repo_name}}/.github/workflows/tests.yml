@@ -12,25 +12,31 @@ on:
 
 jobs:
   test:
+    name: Tests (Python {% raw %}${{ matrix.python-version }}{% endraw %}, pretix {% raw %}${{ matrix.pretix }}{% endraw %})
     runs-on: ubuntu-latest
-    name: Tests
+    # pretix master is an early warning only; it must not block a merge.
+    continue-on-error: {% raw %}${{ matrix.pretix == 'master' }}{% endraw %}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Oldest supported Python (= requires-python) and the newest.
+        python-version: ["{{cookiecutter.python_version}}"{% if cookiecutter.python_version != "3.14" %}, "3.14"{% endif %}]
+        pretix: [release]
+        include:
+          - python-version: "3.14"
+            pretix: master
     steps:
       - uses: actions/checkout@v7
-      - name: Set up Python {{cookiecutter.python_version}}
-        uses: actions/setup-python@v7
+      - uses: astral-sh/setup-uv@v7
         with:
-          python-version: "{{cookiecutter.python_version}}"
-      - uses: actions/cache@v6
-        with:
-          path: ~/.cache/pip
-          key: {{ "${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}" }}
-          restore-keys: |
-            {{ "${{ runner.os }}-pip-" }}
+          python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
       - name: Install system dependencies
         run: sudo apt update && sudo apt install gettext
-      - name: Install pretix
-        run: pip3 install uv && uv pip install --system pretix
-      - name: Install Dependencies
-        run: uv pip install --system -U pytest pytest-django -e .
-      - name: Run checks
-        run: py.test tests
+      - name: Install dependencies
+        run: uv sync --group test
+      - name: Install pretix master
+        if: matrix.pretix == 'master'
+        run: uv pip install "pretix @ git+https://github.com/pretix/pretix.git@master"
+      - name: Run tests
+        # --no-sync keeps pretix master installed in the master job
+        run: uv run --no-sync pytest tests
