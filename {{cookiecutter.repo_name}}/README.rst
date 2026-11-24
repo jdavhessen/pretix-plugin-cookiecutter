@@ -22,19 +22,15 @@ Development setup
    the 'plugins' tab in the settings.
 
 This plugin has CI set up to enforce a few code style rules with `Ruff`_. To
-check locally, you need it installed::
+check locally, run::
 
-    pip install ruff
-
-To check your plugin for rule violations, run::
-
-    ruff format --check .
-    ruff check .
+    uv run ruff format --check .
+    uv run ruff check .
 
 You can auto-fix most of these issues by running::
 
-    ruff format .
-    ruff check --fix .
+    uv run ruff format .
+    uv run ruff check --fix .
 
 To automatically check for these issues before you commit, you can run ``.install-hooks.sh``.
 
@@ -50,14 +46,13 @@ Quick start without a pretix checkout
 
 To run the tests and the style checks you do not need a full pretix development
 setup. With `uv`_, a few commands create a throwaway environment that contains
-the plugin and pretix from its git master branch::
+the plugin and the latest pretix release::
 
-    uv venv
-    source .venv/bin/activate
-    uv pip install -e . --group dev --group test
-    make
-    pytest tests
-    ruff check .
+    uv sync --group test
+    uv run make
+    uv run pytest tests
+    uv run ruff format --check .
+    uv run ruff check .
 
 ``make`` needs GNU gettext (Debian package ``gettext``). To try the plugin in a
 running pretix, use the development setup above instead.
@@ -70,6 +65,8 @@ License
 Copyright {% now 'utc', '%Y' %} {{cookiecutter.author_name}}
 
 Released under the terms of the Apache License 2.0
+{% elif cookiecutter.license == "All rights reserved" %}
+Copyright {% now 'utc', '%Y' %} {{cookiecutter.author_name}}. All rights reserved.
 {% elif cookiecutter.license == "pretix Enterprise" %}
 Copyright {% now 'utc', '%Y' %} pretix GmbH
 

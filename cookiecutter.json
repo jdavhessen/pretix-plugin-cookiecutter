@@ -6,7 +6,7 @@
 	"author_name": "Your name",
 	"author_email": "your-email@example.org",
 	"short_description": "Short description",
-	"license": ["Apache", "pretix Enterprise"],
+	"license": ["Apache", "All rights reserved", "pretix Enterprise"],
 	"min_basever": "2.7.0",
 	"category": ["FEATURE", "PAYMENT", "INTEGRATION", "CUSTOMIZATION", "FORMAT", "API"],
 	"python_version": ["3.11", "3.12", "3.13", "3.14"],

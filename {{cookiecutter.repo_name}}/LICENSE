@@ -12,6 +12,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+{% elif cookiecutter.license == "All rights reserved" %}
+Copyright (c) {% now 'utc', '%Y' %} {{cookiecutter.author_name}}. All rights reserved.
+
+This software is proprietary. No license is granted: you may not use, copy,
+modify, merge, publish, distribute, sublicense or sell copies of it, in whole
+or in part, without the prior written permission of the copyright holder.
 {% elif cookiecutter.license == "pretix Enterprise" %}
 This repository contains proprietary software owned by
 

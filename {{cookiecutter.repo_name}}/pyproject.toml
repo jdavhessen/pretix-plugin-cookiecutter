@@ -4,7 +4,7 @@ dynamic = ["version"]
 description = "{{cookiecutter.short_description}}"
 readme = "README.rst"
 requires-python = ">={{cookiecutter.python_version}}"
-license = {text = "{{cookiecutter.license}}"}
+license = "{% if cookiecutter.license == "Apache" %}Apache-2.0{% elif cookiecutter.license == "All rights reserved" %}LicenseRef-Proprietary{% else %}LicenseRef-pretix-Enterprise{% endif %}"
 keywords = ["pretix"]
 authors = [
     {name = "{{cookiecutter.author_name}}", email = "{{cookiecutter.author_email}}"},
@@ -30,7 +30,7 @@ build = "pretix_plugin_build.build:CustomBuild"
 
 [build-system]
 requires = [
-    "setuptools",
+    "setuptools>=77",
     "pretix-plugin-build",
 ]
 
@@ -54,7 +54,7 @@ test = [
     "pytest",
     "pytest-django",
     "coverage",
-    "pretix @ git+https://github.com/pretix/pretix.git@master",
+    "pretix",
 ]
 
 [tool.ruff]
